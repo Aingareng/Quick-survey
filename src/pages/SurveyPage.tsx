@@ -1,12 +1,11 @@
 import { Helmet } from "react-helmet";
 import ComQuestions from "../components/ComQuestions"
-// import ComTimer from '../components/ComTimer';
+import ComTimer from '../components/ComTimer';
 
 import { useSurvey } from "../contexts/SurveyContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { questions } from "../repository/delivery";
-import ComTimer from "../components/ComTimer";
 
 
 
