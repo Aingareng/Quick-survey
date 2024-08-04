@@ -15,9 +15,9 @@ const ResultsPage = () => {
     <div>
     <h1>Survey Results</h1>
     <ul className='mt-5'>
-      {state.answers.map((answer) => (
-        <li key={answer.questionId} className='grid grid-cols-2 justify-items-start'>
-          <p>Question {answer.questionId}:</p> 
+      {state.answers.map((answer,idx) => (
+        <li key={idx} className='grid grid-cols-2 justify-items-start'>
+          <p>Question {idx + 1}:</p> 
           <p>{answer.answer}</p>
         </li>
       ))}

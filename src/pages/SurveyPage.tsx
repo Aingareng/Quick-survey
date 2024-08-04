@@ -1,11 +1,12 @@
 import { Helmet } from "react-helmet";
 import ComQuestions from "../components/ComQuestions"
-import ComTimer from '../components/ComTimer';
+// import ComTimer from '../components/ComTimer';
 
 import { useSurvey } from "../contexts/SurveyContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { questions } from "../repository/delivery";
+import ComTimer from "../components/ComTimer";
 
 
 
@@ -13,10 +14,12 @@ const SurveyPage = () => {
   const { state, dispatch } = useSurvey();
   const navigate = useNavigate()
   const [answerSelect,setAnswerSelect] = useState<{questionId:number,answer:string}>()
+  const [disabledButton,setDisabledButton]= useState<boolean>(true)
 
   const handleAnswer = (answer:string) => {
     const currentQuestion = questions[state.currentQuestionIndex];
     setAnswerSelect({questionId:currentQuestion.id,answer})
+    setDisabledButton(false)
   }
   const handleToNextQuestion = () => {
     dispatch({ type: 'SET_ANSWER', payload: answerSelect! });
@@ -40,6 +43,11 @@ const SurveyPage = () => {
     localStorage.setItem('survey-state', JSON.stringify(state));
   }, [state]);
 
+  useEffect(()=>{
+    setDisabledButton(true)
+    
+  },[state.currentQuestionIndex])
+
   return (
     <div className="border w-[480px] h-full p-6 rounded-2xl shadow flex flex-col gap-9 items-start">
       <Helmet><title>Survey - Quick Survey</title></Helmet>
@@ -53,7 +61,18 @@ const SurveyPage = () => {
         />
       </main>
       <footer>
-        <button onClick={handleToNextQuestion} className="rounded-2xl bg-purple-700 py-4 px-6 text-white">Berikutnya</button>
+        <button
+           disabled={disabledButton} 
+           onClick={handleToNextQuestion} 
+           className={
+            `
+            rounded-2xl bg-purple-700 py-4 px-6 text-white
+            ${disabledButton && 'opacity-50 cursor-not-allowed'}
+            `
+           }
+           >
+            Berikutnya
+          </button>
       </footer>
     </div>
   )
